@@ -158,7 +158,11 @@ wordle_list = (
 def get_gray_letters():
     gray_letters = set()
     gray_input = input('Gray letters (space-separated): ').lower()
-    gray_letters = [letter.strip() for letter in gray_input.split(' ') if letter.strip()]
+    gray_letters = [
+        letter.strip()
+        for letter in gray_input.split(' ')
+        if letter.strip()
+    ]
     return gray_letters
 
 def get_letters(color):
@@ -166,24 +170,51 @@ def get_letters(color):
     print(f'{color} Letters:')
     for position in range(5):
         while True:
-            result_input = input(f'Position {position + 1} (or leave blank if none): ').lower().strip()
+            result_input = input(f'Position {position + 1} (space-separated, or leave blank if none): ').lower()
             if result_input == '':
-                result_letters[position] = ''
+                result_letters[position] = []
                 break
-            elif len(result_input) == 1 and result_input.isalpha():
-                result_letters[position] = result_input
-                break
+            elif all(
+                char.isalpha()
+                or char == ' '
+                for char in result_input
+            ):
+                letters = [
+                    letter.strip()
+                    for letter in result_input.split(' ')
+                    if letter.strip()
+                ]
+                if len(letters) > 0:
+                    result_letters[position] = letters
+                    break
+                else:
+                    print('Invalid input. Please enter at least one letter.')
             else:
-                print('Invalid input. Please enter a single letter or leave blank.')
+                print('Invalid input. Please enter comma-separated letters or leave blank.')
     return result_letters
 
 def filter_words(wordle_list, gray_letters, yellow_letters, green_letters):
-    filtered_words = set(
+    filtered_words = [
         word for word in wordle_list
-        if not any(letter in word for letter in gray_letters)
-        and all(word[i] == green_letters[i] for i in range(5) if green_letters[i])
-        and all(yellow_letter in word for yellow_letter in yellow_letters.values() if yellow_letter)
-    )
+        if not any(
+            letter in word
+            for letter in gray_letters
+        )
+        and all(
+            word[i] in green_letters[i]
+            for i in range(5)
+            if green_letters[i]
+        )
+        and all(
+            any(
+                yellow_char in word
+                and word[i] != yellow_char
+                for yellow_char in yellow_letter
+            )
+            for i in range(5) if yellow_letters[i]
+            for yellow_letter in yellow_letters[i]
+        )
+    ]
     return filtered_words
 
 if __name__ == '__main__':
@@ -191,6 +222,7 @@ if __name__ == '__main__':
     yellow_letters = get_letters('Yellow')
     green_letters = get_letters('Green')
 
+    print('Possible Words:')
     filtered_words = filter_words(wordle_list, gray_letters, yellow_letters, green_letters)
     for i, word in enumerate(filtered_words):
         print(f'{i + 1}. {word}')
