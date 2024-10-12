@@ -158,11 +158,11 @@ wordle_list = (
 def get_gray_letters():
     gray_letters = set()
     gray_input = input('Gray letters (space-separated): ').lower()
-    gray_letters = [
+    gray_letters = set(
         letter.strip()
         for letter in gray_input.split(' ')
         if letter.strip()
-    ]
+    )
     return gray_letters
 
 def get_letters(color):
@@ -172,18 +172,18 @@ def get_letters(color):
         while True:
             result_input = input(f'Position {position + 1} (space-separated, or leave blank if none): ').lower()
             if result_input == '':
-                result_letters[position] = []
+                result_letters[position] = set()
                 break
             elif all(
                 char.isalpha()
                 or char == ' '
                 for char in result_input
             ):
-                letters = [
+                letters = set(
                     letter.strip()
                     for letter in result_input.split(' ')
                     if letter.strip()
-                ]
+                )
                 if len(letters) > 0:
                     result_letters[position] = letters
                     break
