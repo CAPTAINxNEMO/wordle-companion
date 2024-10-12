@@ -165,33 +165,49 @@ def get_gray_letters():
     )
     return gray_letters
 
-def get_letters(color):
-    result_letters = dict()
-    print(f'{color} Letters:')
+def get_yellow_letters():
+    yellow_letters = dict()
+    print('Yellow Letters:')
     for position in range(5):
         while True:
-            result_input = input(f'Position {position + 1} (space-separated, or leave blank if none): ').lower()
-            if result_input == '':
-                result_letters[position] = set()
+            yellow_input = input(f'Position {position + 1} (space-separated, or leave blank if none): ').lower()
+            if yellow_input == '':
+                yellow_letters[position] = set()
                 break
             elif all(
                 char.isalpha()
                 or char == ' '
-                for char in result_input
+                for char in yellow_input
             ):
                 letters = set(
                     letter.strip()
-                    for letter in result_input.split(' ')
+                    for letter in yellow_input.split(' ')
                     if letter.strip()
                 )
                 if len(letters) > 0:
-                    result_letters[position] = letters
+                    yellow_letters[position] = letters
                     break
                 else:
                     print('Invalid input. Please enter at least one letter.')
             else:
-                print('Invalid input. Please enter comma-separated letters or leave blank.')
-    return result_letters
+                print('Invalid input. Please enter space-separated letters or leave blank.')
+    return yellow_letters
+
+def get_green_letters():
+    green_letters = dict()
+    print('Green Letters:')
+    for position in range(5):
+        while True:
+            green_input = input(f'Position {position + 1} (or leave blank if none): ').lower()
+            if green_input == '':
+                green_letters[position] = None
+                break
+            elif green_input.isalpha() and len(green_input) == 1:
+                green_letters[position] = green_input
+                break
+            else:
+                print('Invalid input. Please enter a single letter or leave blank.')
+    return green_letters
 
 def filter_words(wordle_list, gray_letters, yellow_letters, green_letters):
     filtered_words = [
@@ -219,8 +235,8 @@ def filter_words(wordle_list, gray_letters, yellow_letters, green_letters):
 
 if __name__ == '__main__':
     gray_letters = get_gray_letters()
-    yellow_letters = get_letters('Yellow')
-    green_letters = get_letters('Green')
+    yellow_letters = get_yellow_letters()
+    green_letters = get_green_letters()
 
     print('Possible Words:')
     filtered_words = filter_words(wordle_list, gray_letters, yellow_letters, green_letters)
