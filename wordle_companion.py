@@ -237,7 +237,7 @@ past_solutions = (
     'voter', 'vouch', 'wacky', 'wagon', 'waltz', 'waste', 'watch', 'weary', 'wedge', 'whack', 'whale', 'wheel', 'whelp', 'where', 'which',
     'whiff', 'while', 'whine', 'whiny', 'whirl', 'whisk', 'whoop', 'widen', 'wince', 'windy', 'woken', 'woman', 'wooer', 'wordy', 'world',
     'worry', 'worse', 'worst', 'would', 'woven', 'wrath', 'wrist', 'write', 'wrong', 'wrote', 'wrung', 'yacht', 'yearn', 'yield', 'young',
-    'youth', 'zebra', 'zesty', 'fiber'
+    'youth', 'zebra', 'zesty', 'fiber', 'dicey', 'spoon'
 )
 
 def get_gray_letters():
